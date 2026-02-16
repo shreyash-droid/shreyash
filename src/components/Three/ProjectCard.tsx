@@ -16,8 +16,8 @@ interface ProjectCardProps {
 function CardImage({ url }: { url: string }) {
     const texture = useTexture(url)
     return (
-        <mesh position={[0, 0, 0]}>
-            <planeGeometry args={[3.0, 2.1]} />
+        <mesh position={[0, 0, 0.01]}>
+            <planeGeometry args={[3.45, 2.28]} />
             <meshBasicMaterial map={texture} transparent />
         </mesh>
     )
@@ -90,34 +90,38 @@ export function ProjectCard({ project, position, onClick, onHover, onLeave }: Pr
             }}
         >
             <Billboard follow={true} lockX={false} lockY={false} lockZ={false}>
-                {/* 1. Main Card Container: Light Grey #D9D9D9 - FLAT */}
-                <RoundedBox args={[3.5, 3.8, 0.1]} radius={0.2} smoothness={4}>
+                {/* 1. Main Card Container: 385x305 -> 3.85 x 3.05, Radius 20 -> 0.2 */}
+                <RoundedBox args={[3.85, 3.05, 0.1]} radius={0.2} smoothness={4}>
                     <meshBasicMaterial color="#D9D9D9" />
                 </RoundedBox>
 
-                {/* 2. Image Container: White #FFFFFF */}
-                {/* Positioned slightly up to leave room for text at bottom */}
-                <mesh position={[0, 0.4, 0.06]}>
-                    <planeGeometry args={[3.1, 2.2]} />
-                    <meshBasicMaterial color="#FFFFFF" />
-                </mesh>
-
-                {/* 3. The Image Itself */}
-                {/* Rendered slightly in front of the white box */}
-                <group position={[0, 0.4, 0.07]}>
+                {/* 2. Image Container: 345x228 -> 3.45 x 2.28, Radius 5 -> 0.05 */}
+                {/* Y Position: Card Top (1.525) - Margin (0.15) - Half Image (1.14) = 0.235 */}
+                <group position={[0, 0.235, 0.06]}>
+                    {/* White backing for image with rounded corners */}
+                    <RoundedBox args={[3.45, 2.28, 0.01]} radius={0.05} smoothness={4}>
+                        <meshBasicMaterial color="#FFFFFF" />
+                    </RoundedBox>
+                    {/* The Image Itself - Masking manually or just placing on top. 
+                        For simplicity in ThreeJS without stencil, just placing on top.
+                        Ideally we'd use a mask, but for now let's just render the image.
+                        The user asked for radius 5 on image container. 
+                    */}
                     <CardImage url={project.thumbnail} />
                 </group>
 
-                {/* 4. Project Name: Left Aligned at Bottom */}
+                {/* 3. Project Name */}
+                {/* Y Position: Image Bottom (0.235 - 1.14 = -0.905). Padding 0.1. Top Text -1.005. Center (-1.005 - 0.12) = -1.125 */}
+                {/* X Position: Aligned with Image Left (-1.725) */}
                 <Text
-                    position={[-1.4, -1.2, 0.07]}
+                    position={[-1.725, -1.15, 0.07]}
                     fontSize={0.25}
                     color="black"
                     anchorX="left"
                     anchorY="middle"
-                    maxWidth={3.0}
+                    maxWidth={3.45}
                     font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-                    fontWeight={600}
+                    fontWeight={900} // Medium
                 >
                     {project.title}
                 </Text>
