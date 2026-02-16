@@ -1,6 +1,6 @@
-import { Component, ReactNode, useState, Suspense } from 'react'
+import { Component, type ReactNode, useState, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
+// import { Environment } from '@react-three/drei'
 import { PortfolioScene } from './components/Three/PortfolioScene'
 import { ProjectDetails } from './components/UI/ProjectDetails'
 import { projects } from './data/projects'

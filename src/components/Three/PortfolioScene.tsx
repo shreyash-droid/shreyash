@@ -41,7 +41,7 @@ function SceneContent({ onProjectSelect }: PortfolioSceneProps) {
         })
     }, [])
 
-    useFrame((state, delta) => {
+    useFrame((_state, delta) => {
         const t = scroll.offset // 0 = Start, 1 = End
 
         // 1. Orbit Rotation

@@ -1,16 +1,17 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Points, PointMaterial, useScroll } from '@react-three/drei'
+// @ts-ignore
 import * as random from 'maath/random/dist/maath-random.esm'
 
 export function BackgroundParticles() {
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
     const scroll = useScroll()
 
     // Generate 400 positions in a sphere of radius 60
     const sphere = useMemo(() => random.inSphere(new Float32Array(400 * 3), { radius: 60 }), [])
 
-    useFrame((state, delta) => {
+    useFrame((_state, delta) => {
         if (!ref.current) return
 
         // 1. Constant slow drift
