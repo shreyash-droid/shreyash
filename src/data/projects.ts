@@ -79,5 +79,5 @@ const baseProjects: Project[] = [
 // Duplicate list to ensure ring is populated (14 items total)
 export const projects: Project[] = [
     ...baseProjects,
-    ...baseProjects.map(p => ({ ...p, id: p.id + '_copy', title: p.title + ' (Copy)' })),
+    ...baseProjects.map(p => ({ ...p, id: p.id + '_copy', title: p.title })),
 ];
