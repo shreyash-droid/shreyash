@@ -1,7 +1,7 @@
-import { Component, type ReactNode, useState, Suspense, lazy } from 'react'
+import { Component, type ReactNode, useState, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 // import { Environment } from '@react-three/drei'
-// import { PortfolioScene } from './components/Three/PortfolioScene'
+import { PortfolioScene } from './components/Three/PortfolioScene'
 import { ProjectDetails } from './components/UI/ProjectDetails'
 import { projects } from './data/projects'
 import './App.css'
@@ -23,8 +23,6 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     return this.props.children
   }
 }
-
-const PortfolioScene = lazy(() => import('./components/Three/PortfolioScene').then(module => ({ default: module.PortfolioScene })))
 
 function App() {
   const [activeProject, setActiveProject] = useState<string | null>(null)
