@@ -1,6 +1,7 @@
-import { useRef, useMemo, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useProjectRing } from './hooks/useProjectRing'
 import { useFrame } from '@react-three/fiber'
-import { Group, Vector3 } from 'three'
+import { Group } from 'three'
 import { easing } from 'maath'
 import { useScroll, ScrollControls } from '@react-three/drei'
 import { ProjectCard } from './ProjectCard'
@@ -22,24 +23,7 @@ function SceneContent({ onProjectSelect }: PortfolioSceneProps) {
     const speedRef = useRef(0.05)
 
     // Calculate Elliptical Ring Positions
-    const positions = useMemo(() => {
-        const count = projects.length
-        const xRadius = 22
-        const zRadius = 10
-
-        return projects.map((_, i) => {
-            const theta = (i / count) * Math.PI * 2
-
-            const x = Math.cos(theta) * xRadius
-            const z = Math.sin(theta) * zRadius
-
-            const verticalOffset = 4.5
-            const isUp = i % 2 === 0
-            const y = (isUp ? 1 : -1) * (verticalOffset + Math.random() * 2)
-
-            return new Vector3(x, y, z)
-        })
-    }, [])
+    const positions = useProjectRing()
 
     useFrame((_state, delta) => {
         const t = scroll.offset // 0 = Start, 1 = End
