@@ -1,7 +1,8 @@
-import { Component, type ReactNode, useState, Suspense } from 'react'
+import { Component, type ReactNode, useState, Suspense, lazy } from 'react'
+import { LoadingScreen } from './components/UI/LoadingScreen'
 import { Canvas } from '@react-three/fiber'
 // import { Environment } from '@react-three/drei'
-import { PortfolioScene } from './components/Three/PortfolioScene'
+// import { PortfolioScene } from './components/Three/PortfolioScene'
 import { ProjectDetails } from './components/UI/ProjectDetails'
 import { projects } from './data/projects'
 import './App.css'
@@ -24,12 +25,16 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   }
 }
 
+const PortfolioScene = lazy(() => import('./components/Three/PortfolioScene').then(module => ({ default: module.PortfolioScene })))
+
 function App() {
   const [activeProject, setActiveProject] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const activeProjectData = projects.find(p => p.id === activeProject) || null
 
   return (
     <div className="app-container">
+      {isLoading && <LoadingScreen onFinished={() => setIsLoading(false)} />}
 
       <ProjectDetails
         project={activeProjectData}
